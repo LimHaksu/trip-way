@@ -5,13 +5,13 @@ import { BrowserRouter } from 'react-router-dom';
 import MainPage from 'pages/MainPage';
 
 interface Props {
-    
+
 }
 
-export default function App({}: Props): ReactElement {
+export default function App({ }: Props): ReactElement {
     return (
         <BrowserRouter>
-            <Route path="/" component={MainPage}/>
+            <Route path="/" component={MainPage} />
         </BrowserRouter>
-        )
+    )
 }
