@@ -27,15 +27,15 @@ export default class TwMap extends Component<Props, State> {
     async componentDidMount() {
         // (Longitude , Latitude) 순서로 넣어줘야함
         const locations = [[126.961479, 37.477559], [126.987096, 37.493153], [127.015235, 37.488542], [127.032299, 37.506952]];
-        // const locations = [[13.388860, 52.517037], [13.397634, 52.529407], [13.428555, 52.523219]];
         const data = await mapApi.getTripRoute(locations);
-        // trips type : Array
         let wayPoints = data.waypoints.map((element: any) => {
+            // osrm 리턴 값은 (lng, lat) 튜플인데 leaflet에서 표기할땐 (lat, lng) 튜플이므로 순서를 바꿔줌
             const temp = element.location[0];
             element.location[0] = element.location[1];
             element.location[1] = temp;
             return element;
         })
+        // trips type : Array
         this.setState({ lines: data.trips[0].geometry, wayPoints: wayPoints });
     }
     renderMarkers = (wayPoints: any[]) => {
@@ -51,7 +51,9 @@ export default class TwMap extends Component<Props, State> {
             <Map id='tw-map' viewport={viewport}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    url='http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}'
+                    subdomains={['mt0', 'mt1', 'mt2', 'mt3']}
                 />
                 {typeof lines.coordinates != 'undefined' && <GeoJSON key='tw-geojson' data={lines} />}
                 {/* {this.renderMarkers(wayPoints)} */}
