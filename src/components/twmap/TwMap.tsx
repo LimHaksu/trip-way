@@ -52,7 +52,7 @@ export default class TwMap extends Component<Props, State> {
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    url='http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}'
+                    url='http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}' // lyrs= m : normal map, s : Satellite, h : hybrid, p : Terrain
                     subdomains={['mt0', 'mt1', 'mt2', 'mt3']}
                 />
                 {typeof lines.coordinates != 'undefined' && <GeoJSON key='tw-geojson' data={lines} />}

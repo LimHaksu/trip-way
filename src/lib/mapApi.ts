@@ -12,3 +12,9 @@ export const getTripRoute = async (locations: number[][]) => {
     const response = await axios.get(uri);
     return response.data;
 }
+
+export const getSearchResult = async (query: string) => {
+    const uri = `https://nominatim.openstreetmap.org/search?format=geojson&addressdetails=1&extratags=1&namedetails=1&accept-language=ko-kr&q=${query}`;
+    const response = await axios.get(uri);
+    return response.data;
+}
