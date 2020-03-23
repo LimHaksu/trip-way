@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { Map, TileLayer, Marker, Popup, GeoJSON } from 'react-leaflet';
+import React, { Component, Fragment } from 'react'
+import { Map, TileLayer, Marker, Popup, GeoJSON, LayersControl } from 'react-leaflet';
 import './twmap.scss';
 import * as mapApi from 'lib/mapApi';
 type Viewport = {
@@ -48,23 +48,26 @@ export default class TwMap extends Component<Props, State> {
         const viewport = this.state.viewport;
         const { lines, wayPoints } = this.state;
         return (
-            <Map id='tw-map' viewport={viewport}>
-                <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    url='http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}' // lyrs= m : normal map, s : Satellite, h : hybrid, p : Terrain
-                    subdomains={['mt0', 'mt1', 'mt2', 'mt3']}
-                />
-                {typeof lines.coordinates != 'undefined' && <GeoJSON key='tw-geojson' data={lines} />}
-                {/* {this.renderMarkers(wayPoints)} */}
-                {wayPoints.map((point: any, idx) =>
-                    <Marker key={`marker-${idx}`} position={point.location}>
-                        <Popup>
-                            A pretty CSS3 popup. <br /> Easily customizable.
+            <Fragment>
+                <Map id='tw-map' viewport={viewport}>
+                    <TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        url='http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}' // lyrs= m : normal map, s : Satellite, h : hybrid, p : Terrain
+                        subdomains={['mt0', 'mt1', 'mt2', 'mt3']}
+                    />
+                    {typeof lines.coordinates != 'undefined' && <GeoJSON key='tw-geojson' data={lines} />}
+                    {/* {this.renderMarkers(wayPoints)} */}
+                    {wayPoints.map((point: any, idx) =>
+                        <Marker key={`marker-${idx}`} position={point.location}>
+                            <Popup>
+                                A pretty CSS3 popup. <br /> Easily customizable.
                         </Popup>
-                    </Marker>
-                )}
-            </Map>
+                        </Marker>
+                    )}
+                </Map>
+                <img id="google-logo" src={require("images/google_logo.png")} alt="powered by google" />
+            </Fragment>
         )
     }
 }
