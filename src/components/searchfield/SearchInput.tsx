@@ -2,11 +2,9 @@ import React, { ReactElement, useState } from 'react'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
-import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import DirectionsIcon from '@material-ui/icons/Directions';
+import * as mapApi from 'lib/mapApi';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -38,10 +36,19 @@ const handleClick = () => {
     alert('hello');
 }
 
-export default function SearchField({ id }: Props): ReactElement {
+const handleKeyDown = (e: any) => {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        const data = mapApi.getSearchResult(e.target.value);
+        console.log(data);
+    }
+
+}
+
+export default function SearchInput({ id }: Props): ReactElement {
     const classes = useStyles();
     return (
-        <Paper id={id} component="form" className={classes.root}>
+        <Paper id={id} component="form" className={classes.root} onKeyDown={handleKeyDown}>
             <InputBase
                 className={classes.input}
                 placeholder="장소를 입력하세요."

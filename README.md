@@ -1,8 +1,12 @@
 ## 여행경로 찾기 작업중...
 
+### Libraries...
+
 typesrcipt
 
 React
+
+Redux
 
 React-Leaflet : 지도
 https://react-leaflet.js.org/
