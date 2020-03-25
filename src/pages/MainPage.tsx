@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import TwMap from 'components/twmap/TwMap';
 import SearchInput from 'components/searchfield/SearchInput';
 import SearchList from 'components/searchfield/SearchList';
+import Counter from 'components/counter/Counter';
 import './mainpage.scss';
 interface Props {
 
@@ -15,9 +16,10 @@ export default class MainPage extends Component<Props, State> {
     render() {
         return (
             <div>
-                <TwMap />
+                {/* <TwMap />
                 <SearchInput id="search-field" />
-                <SearchList id='search-list' />
+                <SearchList id='search-list' /> */}
+                <Counter></Counter>
             </div>
         )
     }
