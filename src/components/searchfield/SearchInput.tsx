@@ -5,6 +5,8 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import * as mapApi from 'lib/mapApi';
+import useSearch from 'hooks/useSearch';
+
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -32,21 +34,21 @@ interface Props {
     id?: string;
 }
 
-const handleClick = () => {
-    alert('hello');
-}
-
-const handleKeyDown = (e: any) => {
-    if (e.key === 'Enter') {
-        e.preventDefault();
-        const data = mapApi.getSearchResult(e.target.value);
-        console.log(data);
-    }
-
-}
-
 export default function SearchInput({ id }: Props): ReactElement {
     const classes = useStyles();
+    const { onSearch } = useSearch();
+
+    const handleKeyDown = (e: any) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            onSearch(e.target.value);
+        }
+    }
+
+    const handleClick = () => {
+        alert('hello');
+    }
+
     return (
         <Paper id={id} component="form" className={classes.root} onKeyDown={handleKeyDown}>
             <InputBase

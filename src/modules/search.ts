@@ -1,30 +1,25 @@
-import { ActionAccessibility } from "material-ui/svg-icons";
+import { createAction, ActionType, createReducer } from 'typesafe-actions';
+import * as mapApi from 'lib/mapApi';
 
-const SEARCH_LOCATION = 'search/SEARCH_LOCATION' as const;
+const SEARCH_LOCATION = 'search/SEARCH_LOCATION';
 
-export const searchLocation = (location : string) => ({ 
-    type : SEARCH_LOCATION, 
-    payload : location
-});
+export const searchLocation = createAction(
+    SEARCH_LOCATION,
+    (location: string) => (mapApi.getSearchResult(location)))();
 
-type SearchAction =
-    | ReturnType<typeof searchLocation>
+const actions = { searchLocation };
+type SearchAction = ActionType<typeof actions>;
 
 type SearchState = {
-    searchResult : [];
+    searchResult: Promise<any>;
 }
 
-const initialState : SearchState = {
-    searchResult : []
+const initialState: SearchState = {
+    searchResult: {} as Promise<any>
 }
 
-const search = (state = initialState, action : any) => {
-    switch(action.type){
-        case SEARCH_LOCATION:
-            return { searchResult : action.payload };
-        default:
-            return state;
-    }
-};
+const search = createReducer<SearchState, SearchAction>(initialState, {
+    [SEARCH_LOCATION]: (state, action) => ({ searchResult: action.payload })
+})
 
 export default search;

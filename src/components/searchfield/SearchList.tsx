@@ -13,6 +13,7 @@ import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
+import useSearch from 'hooks/useSearch';
 
 const useStyles1 = makeStyles((theme: Theme) =>
     createStyles({
@@ -90,7 +91,7 @@ const useStyles2 = makeStyles({
         minWidth: '30vw',
     },
     tableContainer: {
-        padding : '2px 4px',
+        padding: '2px 4px',
         width: '30vw'
     }
 });
@@ -100,9 +101,10 @@ interface Props {
 }
 
 export default function SearchList({ id }: Props) {
+    const { searchResult } = useSearch();
     const classes = useStyles2();
     const [page, setPage] = useState(0);
-    const [rows, setRows] = useState<{name:string}[]>([]);
+    const [rows, setRows] = useState<{ name: string }[]>([]);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
@@ -116,6 +118,11 @@ export default function SearchList({ id }: Props) {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
+
+    const setSearchResult = () => {
+        console.log(searchResult);
+    }
+    setSearchResult();
 
     return (
         <TableContainer className={classes.tableContainer} component={Paper} id={id}>

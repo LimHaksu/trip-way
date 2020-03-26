@@ -12,3 +12,5 @@ map attribution은 osm, map tile에 대하여 google 로고 추가
 
 Todo...
 redux 적용해서 검색 결과 list에 보여주기
+redux-saga 적용해서 비동기 처리하기, 아래 글 읽어보기
+https://github.com/reactkr/learn-react-in-korean/blob/master/translated/deal-with-async-process-by-redux-saga.md

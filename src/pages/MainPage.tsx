@@ -16,10 +16,10 @@ export default class MainPage extends Component<Props, State> {
     render() {
         return (
             <div>
-                {/* <TwMap />
+                <TwMap />
                 <SearchInput id="search-field" />
-                <SearchList id='search-list' /> */}
-                <Counter></Counter>
+                <SearchList id='search-list' />
+                {/* <Counter></Counter> */}
             </div>
         )
     }
