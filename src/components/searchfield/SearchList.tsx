@@ -94,7 +94,18 @@ const useStyles2 = makeStyles({
     tableContainer: {
         padding: '2px 4px',
         width: '30vw'
-    }
+    },
+    tableRow: {
+        "&$hover:hover": {
+            backgroundColor: "blue"
+        }
+    },
+    tableCell: {
+        "$hover:hover &": {
+            color: "pink"
+        }
+    },
+    hover: {}
 });
 
 interface Props {
@@ -143,8 +154,8 @@ export default function SearchList({ id, searchResult, clickedIndex, setClickedI
                 <TableBody>
                     {(rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     ).map(row => (
-                        <TableRow key={row.index} onClick={() => { setClickedIndex(row.index) }}>
-                            <TableCell component="th" scope="row">
+                        <TableRow key={row.index} onClick={() => { setClickedIndex(row.index) }} selected={row.index === clickedIndex} hover classes={{ hover: classes.hover }}>
+                            <TableCell component="th" scope="row" >
                                 <span className="search-list-name">{row.name}</span>
                             </TableCell>
                         </TableRow>
