@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement, useState, useEffect } from 'react'
 import TwMap from 'components/twmap/TwMap';
 import SearchInput from 'components/searchfield/SearchInput';
 import SearchList from 'components/searchfield/SearchList';
@@ -10,10 +10,14 @@ interface Props {
 
 export default function MainPage({ }: Props): ReactElement {
     const [searchResult, setSearchResult] = useState<Object[]>([]);
-    // console.log(searchResult);
+    const [clickedIndex, setClickedIndex] = useState<number>(-1);
+
+    useEffect(() => {
+        setClickedIndex(-1);
+    }, [searchResult]);
     return (
         <div>
-            <TwMap />
+            <TwMap searchResult={searchResult} clickedIndex={clickedIndex} />
             <SearchInput id="search-field" setSearchResult={setSearchResult} />
             <SearchList id='search-list' searchResult={searchResult} />
             {/* <Counter></Counter> */}
