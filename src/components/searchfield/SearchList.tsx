@@ -14,6 +14,7 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import useSearch from 'hooks/useSearch';
+import './searchlist.scss';
 
 const useStyles1 = makeStyles((theme: Theme) =>
     createStyles({
@@ -99,9 +100,11 @@ const useStyles2 = makeStyles({
 interface Props {
     id?: string;
     searchResult: Object[];
+    clickedIndex: number;
+    setClickedIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function SearchList({ id, searchResult }: Props) {
+export default function SearchList({ id, searchResult, clickedIndex, setClickedIndex }: Props) {
     // const { searchResult } = useSearch(); // redux 적용할때 사용하기
     const classes = useStyles2();
     const [page, setPage] = useState(0);
@@ -140,9 +143,9 @@ export default function SearchList({ id, searchResult }: Props) {
                 <TableBody>
                     {(rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     ).map(row => (
-                        <TableRow key={row.index}>
+                        <TableRow key={row.index} onClick={() => { setClickedIndex(row.index) }}>
                             <TableCell component="th" scope="row">
-                                {row.name}
+                                <span className="search-list-name">{row.name}</span>
                             </TableCell>
                         </TableRow>
                     ))}

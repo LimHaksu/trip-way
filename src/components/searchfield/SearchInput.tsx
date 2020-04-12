@@ -37,29 +37,35 @@ interface Props {
 
 export default function SearchInput({ id, setSearchResult }: Props): ReactElement {
     const classes = useStyles();
+    const [input, setInput] = useState("");
     // const { onSearch } = useSearch(); // redux 사용
 
     const handleKeyDown = async (e: any) => {
         if (e.key === 'Enter') {
             e.preventDefault();
             // onSearch(e.target.value); // redux 사용
-            const result = await mapApi.getSearchResult(e.target.value);
+            const result = await mapApi.getSearchResult(input);
             setSearchResult(result.features);
         }
     }
 
-    const handleClick = () => {
-        alert('hello');
+    const handleClick = async (e: any) => {
+        e.preventDefault();
+        const result = await mapApi.getSearchResult(input);
+        setSearchResult(result.features);
     }
-
+    const handleChange = (e: any) => {
+        setInput(e.target.value);
+    }
     return (
         <Paper id={id} component="form" className={classes.root} onKeyDown={handleKeyDown}>
             <InputBase
                 className={classes.input}
                 placeholder="장소를 입력하세요."
                 inputProps={{ 'aria-label': 'search place' }}
+                onChange={handleChange}
             />
-            <IconButton type="button" className={classes.iconButton} aria-label="search" onClick={handleClick}>
+            <IconButton type="submit" className={classes.iconButton} aria-label="search" onClick={handleClick}>
                 <SearchIcon />
             </IconButton>
         </Paper>

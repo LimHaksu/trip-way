@@ -17,9 +17,9 @@ export default function MainPage({ }: Props): ReactElement {
     }, [searchResult]);
     return (
         <div>
-            <TwMap searchResult={searchResult} clickedIndex={clickedIndex} />
+            <TwMap searchResult={searchResult} clickedIndex={clickedIndex} setClickedIndex={setClickedIndex} />
             <SearchInput id="search-field" setSearchResult={setSearchResult} />
-            <SearchList id='search-list' searchResult={searchResult} />
+            <SearchList id='search-list' searchResult={searchResult} clickedIndex={clickedIndex} setClickedIndex={setClickedIndex} />
             {/* <Counter></Counter> */}
         </div>
     )

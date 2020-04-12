@@ -1,6 +1,7 @@
 import React, { ReactElement, Fragment, useState, useEffect } from 'react'
-import { Map, TileLayer, Marker, Popup, GeoJSON, LayersControl } from 'react-leaflet';
+import { Map, TileLayer, Marker, Popup, GeoJSON, LayersControl, Point } from 'react-leaflet';
 import './twmap.scss';
+import L from 'leaflet'
 import * as mapApi from 'lib/mapApi';
 type Viewport = {
     center: L.LatLngTuple,
@@ -9,6 +10,7 @@ type Viewport = {
 interface Props {
     searchResult: any[];
     clickedIndex: number;
+    setClickedIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 interface State {
     viewport: Viewport;
@@ -16,17 +18,40 @@ interface State {
     wayPoints: any[];
 }
 
-export default function TwMap({ searchResult }: Props): ReactElement {
+const blueIcon = new L.Icon({
+    iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+});
+
+const redIcon = new L.Icon({
+    iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+});
+
+export default function TwMap({ searchResult, clickedIndex, setClickedIndex }: Props): ReactElement {
     const [searchLocations, setSearchLocations] = useState<Object[]>([]);
     const [viewport, setViewport] = useState({ center: [37.497781, 126.994194] as L.LatLngTuple, zoom: 13 });
     const [lines, setLines] = useState({} as any);
     const [wayPoints, setWayPoints] = useState([]);
     useEffect(() => {
-
+        if (searchResult.length > 0) {
+            const idx = clickedIndex >= 0 ? clickedIndex : 0;
+            const lat = searchResult[idx].geometry.coordinates[1];
+            const lng = searchResult[idx].geometry.coordinates[0];
+            setViewport({ ...viewport, center: [lat, lng] });
+        }
         return () => {
             // clean up
         }
-    }, [searchResult]);
+    }, [searchResult, clickedIndex]);
     useEffect(() => {
         // (Longitude , Latitude) 순서로 넣어줘야함
         // const locations = [[126.961479, 37.477559], [126.987096, 37.493153], [127.015235, 37.488542], [127.032299, 37.506952]];
@@ -67,8 +92,13 @@ export default function TwMap({ searchResult }: Props): ReactElement {
                         </Marker>
                     )}
                     {searchResult.map((element, idx) => {
-                        return <Marker key={`search-marker-${idx}`} position={[element.geometry.coordinates[1], element.geometry.coordinates[0]]}>
-                        </Marker>
+                        if (idx === clickedIndex) {
+                            return <Marker key={`search-marker-${idx}`} position={[element.geometry.coordinates[1], element.geometry.coordinates[0]]} icon={redIcon} zIndexOffset={1000} riseOnHover>
+                            </Marker>
+                        } else {
+                            return <Marker key={`search-marker-${idx}`} position={[element.geometry.coordinates[1], element.geometry.coordinates[0]]} icon={blueIcon} zIndexOffset={0} riseOnHover>
+                            </Marker>
+                        }
                     })}
                 </Map>
                 <img id="google-logo" src={require("images/google_logo.png")} alt="powered by google" />
