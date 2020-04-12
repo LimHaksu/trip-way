@@ -10,7 +10,12 @@ map attribution은 osm, map tile에 대하여 google 로고 추가
 
 데이터 저장하고 불러오기 기능 추가, 가능하다면 구글 드라이브 연동하여 파일 관리 필요없게 만들기
 
-Todo...
-redux 적용해서 검색 결과 list에 보여주기
-redux-saga 적용해서 비동기 처리하기, 아래 글 읽어보기
-https://github.com/reactkr/learn-react-in-korean/blob/master/translated/deal-with-async-process-by-redux-saga.md
+
+
+#### 생각해보기
+
+fetch 에러가 났을때 어떻게 처리할 것인가? (api는 항상 200  주지 않는다.)
+프론트엔드에서 tdd 하는법
+css 디자인 배치 하는 법, 그리드 스럽게
+Hooks 사용하기
+Redux 사용하지 말고 작업해보자

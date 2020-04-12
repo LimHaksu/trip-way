@@ -6,7 +6,7 @@ typesrcipt
 
 React
 
-Redux
+Redux (Redux-saga) : 추후 반영 예정
 
 React-Leaflet : 지도
 https://react-leaflet.js.org/

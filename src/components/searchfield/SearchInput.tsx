@@ -32,16 +32,19 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface Props {
     id?: string;
+    setSearchResult: (arg1: Object[]) => void;
 }
 
-export default function SearchInput({ id }: Props): ReactElement {
+export default function SearchInput({ id, setSearchResult }: Props): ReactElement {
     const classes = useStyles();
-    const { onSearch } = useSearch();
+    // const { onSearch } = useSearch(); // redux 사용
 
-    const handleKeyDown = (e: any) => {
+    const handleKeyDown = async (e: any) => {
         if (e.key === 'Enter') {
             e.preventDefault();
-            onSearch(e.target.value);
+            // onSearch(e.target.value); // redux 사용
+            const result = await mapApi.getSearchResult(e.target.value);
+            setSearchResult(result.features);
         }
     }
 

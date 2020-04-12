@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles, useTheme, Theme, createStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -98,13 +98,14 @@ const useStyles2 = makeStyles({
 
 interface Props {
     id?: string;
+    searchResult: Object[];
 }
 
-export default function SearchList({ id }: Props) {
-    const { searchResult } = useSearch();
+export default function SearchList({ id, searchResult }: Props) {
+    // const { searchResult } = useSearch(); // redux 적용할때 사용하기
     const classes = useStyles2();
     const [page, setPage] = useState(0);
-    const [rows, setRows] = useState<{ name: string }[]>([]);
+    const [rows, setRows] = useState<{ index: number, name: string }[]>([]);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
@@ -118,19 +119,28 @@ export default function SearchList({ id }: Props) {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
-
-    const setSearchResult = () => {
-        console.log(searchResult);
+    const setList = (searchResult: Object[]) => {
+        const searchResultNames = searchResult.map((element: any, idx: number) => {
+            let name = element.properties.namedetails["name:ko"];
+            if (typeof name === 'undefined') {
+                name = element.properties.namedetails["name"];
+            }
+            return { index: idx, name: name };
+        })
+        console.log(searchResultNames);
+        setRows(searchResultNames);
     }
-    setSearchResult();
-
+    useEffect(() => {
+        setList(searchResult);
+        console.log(searchResult);
+    }, [searchResult]); // searchResult가 바뀔 때만 effect를 재실행합니다.
     return (
         <TableContainer className={classes.tableContainer} component={Paper} id={id}>
             <Table className={classes.table} aria-label="custom pagination table">
                 <TableBody>
                     {(rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     ).map(row => (
-                        <TableRow key={row.name}>
+                        <TableRow key={row.index}>
                             <TableCell component="th" scope="row">
                                 {row.name}
                             </TableCell>
