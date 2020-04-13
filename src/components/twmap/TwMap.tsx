@@ -43,10 +43,11 @@ export default function TwMap({ searchResult, clickedIndex, setClickedIndex }: P
     const [wayPoints, setWayPoints] = useState([]);
     useEffect(() => {
         if (searchResult.length > 0) {
+            const zoom = clickedIndex >= 0 ? viewport.zoom : 13;
             const idx = clickedIndex >= 0 ? clickedIndex : 0;
             const lat = searchResult[idx].geometry.coordinates[1];
             const lng = searchResult[idx].geometry.coordinates[0];
-            setViewport({ ...viewport, center: [lat, lng] });
+            setViewport({ zoom: zoom, center: [lat, lng] });
         }
         return () => {
             // clean up
@@ -76,15 +77,14 @@ export default function TwMap({ searchResult, clickedIndex, setClickedIndex }: P
     const handleMarkerClick = () => {
         console.log("클릭");
     }
-    const refmarker = createRef<Marker>();
-    const updatePosition = () => {
-        const marker = refmarker.current
-        if (marker != null) {
-            console.log(marker.leafletElement.getLatLng());
-        }
-    }
+    // const refmarker = createRef<Marker>();
+    // const updatePosition = () => {
+    //     const marker = refmarker.current
+    //     if (marker != null) {
+    //         console.log(marker.leafletElement.getLatLng());
+    //     }
+    // }
     const handleZoom = (e: any) => {
-        console.log(e)
         setViewport({ center: [e.target._lastCenter.lat, e.target._lastCenter.lng], zoom: e._zoom });
     }
     return (
@@ -100,18 +100,27 @@ export default function TwMap({ searchResult, clickedIndex, setClickedIndex }: P
                     {typeof lines.coordinates != 'undefined' && <GeoJSON key='tw-geojson' data={lines} />}
                     {/* {this.renderMarkers(wayPoints)} */}
                     {wayPoints.map((point: any, idx) =>
-                        <Marker key={`marker-${idx}`} position={point.location} draggable={true} ref={refmarker} onclick={handleMarkerClick}>
+                        <Marker key={`marker-${idx}`} position={point.location}>
                             <Popup>
                                 A pretty CSS3 popup. <br /> Easily customizable.
-                        </Popup>
+                            </Popup>
                         </Marker>
                     )}
                     {searchResult.map((element, idx) => {
                         if (idx === clickedIndex) {
-                            return <Marker key={`search-marker-${idx}`} position={[element.geometry.coordinates[1], element.geometry.coordinates[0]]} icon={redIcon} zIndexOffset={1000} riseOnHover>
+                            return <Marker key={`search-marker-${idx}`}
+                                position={[element.geometry.coordinates[1], element.geometry.coordinates[0]]}
+                                icon={redIcon}
+                                zIndexOffset={1000}
+                                riseOnHover
+                            >
                             </Marker>
                         } else {
-                            return <Marker key={`search-marker-${idx}`} position={[element.geometry.coordinates[1], element.geometry.coordinates[0]]} icon={blueIcon} zIndexOffset={0} riseOnHover>
+                            return <Marker key={`search-marker-${idx}`}
+                                position={[element.geometry.coordinates[1], element.geometry.coordinates[0]]}
+                                icon={blueIcon}
+                                zIndexOffset={0}
+                                riseOnHover>
                             </Marker>
                         }
                     })}
