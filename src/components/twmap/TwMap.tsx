@@ -1,4 +1,4 @@
-import React, { ReactElement, Fragment, useState, useEffect } from 'react'
+import React, { ReactElement, Fragment, useState, useEffect, createRef } from 'react'
 import { Map, TileLayer, Marker, Popup, GeoJSON, LayersControl, Point } from 'react-leaflet';
 import './twmap.scss';
 import L from 'leaflet'
@@ -72,10 +72,25 @@ export default function TwMap({ searchResult, clickedIndex, setClickedIndex }: P
             </Marker>
         )
     }
+
+    const handleMarkerClick = () => {
+        console.log("클릭");
+    }
+    const refmarker = createRef<Marker>();
+    const updatePosition = () => {
+        const marker = refmarker.current
+        if (marker != null) {
+            console.log(marker.leafletElement.getLatLng());
+        }
+    }
+    const handleZoom = (e: any) => {
+        console.log(e)
+        setViewport({ center: [e.target._lastCenter.lat, e.target._lastCenter.lng], zoom: e._zoom });
+    }
     return (
         <div>
             <Fragment>
-                <Map id='tw-map' viewport={viewport}>
+                <Map id='tw-map' viewport={viewport} onzoomend={handleZoom}>
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -85,7 +100,7 @@ export default function TwMap({ searchResult, clickedIndex, setClickedIndex }: P
                     {typeof lines.coordinates != 'undefined' && <GeoJSON key='tw-geojson' data={lines} />}
                     {/* {this.renderMarkers(wayPoints)} */}
                     {wayPoints.map((point: any, idx) =>
-                        <Marker key={`marker-${idx}`} position={point.location}>
+                        <Marker key={`marker-${idx}`} position={point.location} draggable={true} ref={refmarker} onclick={handleMarkerClick}>
                             <Popup>
                                 A pretty CSS3 popup. <br /> Easily customizable.
                         </Popup>
