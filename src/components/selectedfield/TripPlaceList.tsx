@@ -13,8 +13,9 @@ import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
+import Checkbox from '@material-ui/core/Checkbox';
 import useSearch from 'hooks/useSearch';
-import './selectedlist.scss';
+import './tripplacelist.scss';
 
 const useStyles1 = makeStyles((theme: Theme) =>
     createStyles({
@@ -111,12 +112,14 @@ const useStyles2 = makeStyles({
 
 interface Props {
     id?: string;
-    clickedIndex?: number;
-    setClickedIndex?: React.Dispatch<React.SetStateAction<number>>;
-    selectedList: Object[];
+    clickedIndex: number;
+    setClickedIndex: React.Dispatch<React.SetStateAction<number>>;
+    tripPlaceList: Object[];
+    selected: number[];
+    setSelected: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
-export default function SelectedList({ id, clickedIndex, setClickedIndex, selectedList }: Props) {
+export default function TripPlaceList({ id, clickedIndex, setClickedIndex, tripPlaceList, selected, setSelected }: Props) {
     // const { searchResult } = useSearch(); // redux 적용할때 사용하기
     const classes = useStyles2();
     const [page, setPage] = useState(0);
@@ -135,9 +138,31 @@ export default function SelectedList({ id, clickedIndex, setClickedIndex, select
         setPage(0);
     };
 
+    // 클릭했을때 선택하는 코드
+    const isSelected = (index: number) => selected.indexOf(index) !== -1;
+    const handleClick = (event: React.MouseEvent<unknown>, index: number) => {
+        const selectedIndex = selected.indexOf(index);
+        let newSelected: number[] = [];
+
+        if (selectedIndex === -1) {
+            newSelected = newSelected.concat(selected, index);
+        } else if (selectedIndex === 0) {
+            newSelected = newSelected.concat(selected.slice(1));
+        } else if (selectedIndex === selected.length - 1) {
+            newSelected = newSelected.concat(selected.slice(0, -1));
+        } else if (selectedIndex > 0) {
+            newSelected = newSelected.concat(
+                selected.slice(0, selectedIndex),
+                selected.slice(selectedIndex + 1),
+            );
+        }
+
+        setSelected(newSelected);
+    };
+
     // 검색결과 바뀌었을때 리스트에 뿌려주는 코드
-    const setList = (selectedList: Object[]) => {
-        const selectedListNames = selectedList.map((element: any, idx: number) => {
+    const setList = (tripPlaceList: Object[]) => {
+        const selectedListNames = tripPlaceList.map((element: any, idx: number) => {
             let name = element.properties.namedetails["name:ko"];
             if (typeof name === 'undefined') {
                 name = element.properties.namedetails["name"];
@@ -147,20 +172,33 @@ export default function SelectedList({ id, clickedIndex, setClickedIndex, select
         setRows(selectedListNames);
     }
     useEffect(() => {
-        setList(selectedList);
-    }, [selectedList]); // searchResult가 바뀔 때만 effect를 재실행합니다.
+        setList(tripPlaceList);
+    }, [tripPlaceList]); // searchResult가 바뀔 때만 effect를 재실행합니다.
     return (
         <TableContainer className={classes.tableContainer} component={Paper} id={id}>
             <Table className={classes.table} aria-label="custom pagination table">
                 <TableBody>
                     {(rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    ).map(row => (
-                        <TableRow key={row.index} hover classes={{ hover: classes.hover }}>
+                    ).map(row => {
+                        const isItemSelected = isSelected(row.index);
+                        const labelId = `enhanced-table-checkbox-${row.index}`;
+                        return <TableRow key={row.index}
+                            onClick={() => { setClickedIndex(row.index) }}
+                            selected={row.index === clickedIndex}
+                            hover
+                            classes={{ hover: classes.hover }}>
+                            <TableCell padding="checkbox">
+                                <Checkbox
+                                    checked={isItemSelected}
+                                    inputProps={{ 'aria-labelledby': labelId }}
+                                    onClick={(event) => { handleClick(event, row.index); }}
+                                />
+                            </TableCell>
                             <TableCell component="th" scope="row" >
-                                <span className="search-list-name">{row.name}</span>
+                                <span className="trip-place-list-name">{row.name}</span>
                             </TableCell>
                         </TableRow>
-                    ))}
+                    })}
                     {emptyRows > 0 && (
                         <TableRow style={{ height: 53 * emptyRows }}>
                             <TableCell colSpan={6} />
