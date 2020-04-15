@@ -78,7 +78,7 @@ export default function MainPage({ }: Props): ReactElement {
                 placeList={tripPlaceList}
                 lines={lines}
                 clickedIndex={clickedIndex}
-                setClickedIndex={setClickedIndex} />
+                tpClickedIndex={tpClickedIndex} />
             <SearchInput id="search-field" setSearchResult={setSearchResult} />
             <SearchList id='search-list'
                 searchResult={searchResult}

@@ -1,5 +1,5 @@
 import React, { ReactElement, Fragment, useState, useEffect, createRef } from 'react'
-import { Map, TileLayer, Marker, Popup, GeoJSON, LayersControl, Point } from 'react-leaflet';
+import { Map, TileLayer, Marker, Popup, GeoJSON, LayersControl, Point, Tooltip } from 'react-leaflet';
 import './twmap.scss';
 import L from 'leaflet'
 import { GeoJsonObject } from 'geojson';
@@ -48,7 +48,9 @@ interface Props {
     searchResult: any[];
     placeList: any[];
     clickedIndex: number;
-    setClickedIndex: React.Dispatch<React.SetStateAction<number>>;
+    // setClickedIndex: React.Dispatch<React.SetStateAction<number>>;
+    tpClickedIndex: number;
+    // setTpClickedIndex: React.Dispatch<React.SetStateAction<number>>;
     lines: any;
 }
 interface State {
@@ -59,7 +61,7 @@ interface State {
 
 
 
-export default function TwMap({ searchResult, placeList, lines, clickedIndex, setClickedIndex }: Props): ReactElement {
+export default function TwMap({ searchResult, placeList, lines, clickedIndex, tpClickedIndex }: Props): ReactElement {
     const [searchLocations, setSearchLocations] = useState<Object[]>([]);
     const [viewport, setViewport] = useState({ center: [37.497781, 126.994194] as L.LatLngTuple, zoom: 13 });
     const [wayPoints, setWayPoints] = useState([]);
@@ -153,13 +155,25 @@ export default function TwMap({ searchResult, placeList, lines, clickedIndex, se
                         }
                     })}
                     {placeList.map((element, idx) => {
-                        if (idx === clickedIndex) {
+                        let name = element.properties.namedetails['name:ko'];
+                        if (typeof name === 'undefined') {
+                            name = element.properties.namedetails['name'];
+                        }
+                        if (typeof name === 'undefined') {
+                            name = element.properties.namedetails[0];
+                        }
+                        if (idx === tpClickedIndex) {
+                            console.log("좌표", element);
+
                             return <Marker key={`place-marker-${idx}`}
                                 position={[element.geometry.coordinates[1], element.geometry.coordinates[0]]}
                                 icon={yellowIcon}
                                 zIndexOffset={1000}
                                 riseOnHover
                             >
+                                <Tooltip direction="top" offset={[0, -40]} permanent>
+                                    {name}
+                                </Tooltip>
                             </Marker>
                         } else {
                             return <Marker key={`place-marker-${idx}`}
@@ -167,6 +181,9 @@ export default function TwMap({ searchResult, placeList, lines, clickedIndex, se
                                 icon={greenIcon}
                                 zIndexOffset={0}
                                 riseOnHover>
+                                <Tooltip direction="top" offset={[0, -40]} permanent>
+                                    {name}
+                                </Tooltip>
                             </Marker>
                         }
                     })}
