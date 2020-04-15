@@ -89,11 +89,12 @@ function createData(name: string) {
 
 const useStyles2 = makeStyles({
     table: {
-        minWidth: '30vw',
+        minWidth: '323px',
     },
     tableContainer: {
         padding: '2px 4px',
-        width: '30vw'
+        width: '30vw',
+        minWidth: '323px'
     },
     tableRow: {
         "&$hover:hover": {
@@ -112,9 +113,10 @@ interface Props {
     id?: string;
     clickedIndex?: number;
     setClickedIndex?: React.Dispatch<React.SetStateAction<number>>;
+    selectedList: Object[];
 }
 
-export default function SelectedList({ id, clickedIndex, setClickedIndex }: Props) {
+export default function SelectedList({ id, clickedIndex, setClickedIndex, selectedList }: Props) {
     // const { searchResult } = useSearch(); // redux 적용할때 사용하기
     const classes = useStyles2();
     const [page, setPage] = useState(0);
@@ -132,17 +134,21 @@ export default function SelectedList({ id, clickedIndex, setClickedIndex }: Prop
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
-    const setList = (searchResult: Object[]) => {
-        const searchResultNames = searchResult.map((element: any, idx: number) => {
+
+    // 검색결과 바뀌었을때 리스트에 뿌려주는 코드
+    const setList = (selectedList: Object[]) => {
+        const selectedListNames = selectedList.map((element: any, idx: number) => {
             let name = element.properties.namedetails["name:ko"];
             if (typeof name === 'undefined') {
                 name = element.properties.namedetails["name"];
             }
             return { index: idx, name: name };
         })
-        console.log(searchResultNames);
-        setRows(searchResultNames);
+        setRows(selectedListNames);
     }
+    useEffect(() => {
+        setList(selectedList);
+    }, [selectedList]); // searchResult가 바뀔 때만 effect를 재실행합니다.
     return (
         <TableContainer className={classes.tableContainer} component={Paper} id={id}>
             <Table className={classes.table} aria-label="custom pagination table">

@@ -1,19 +1,27 @@
 #search-field{
     position : absolute;
     top : 5vh;
-    left : 67vw;
+    right : 15px;
 }
 
 #search-list{
     position : absolute;
     top : 5vh;
     transform: translateY(55px);
-    left : 67vw;
+    right : 15px;
+}
+
+#search-select-button{
+    position : absolute;
+    top : calc(5vh + 329px);
+    transform: translateY(55px);
+    right : 145px;
+    background-color: white;
 }
 
 #selected-list{
     position : absolute;
-    top : calc(5vh + 340px);
+    top : calc(5vh + 370px);
     transform: translateY(55px);
-    left : 67vw;
+    right : 15px;
 }
