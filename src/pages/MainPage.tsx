@@ -19,15 +19,30 @@ export default function MainPage({ }: Props): ReactElement {
     const [tpClickedIndex, setTpClickedIndex] = useState<number>(-1);
     useEffect(() => {
         setClickedIndex(-1);
+        setSearchSelected([]);
     }, [searchResult]);
     const handleButtonClick = () => {
         let selectedList = [] as Object[];
+        tripPlaceList.forEach(element => {
+            selectedList.push(element);
+        });
         searchResult.forEach((element, index) => {
             if (searchSelected.indexOf(index) !== -1) {
                 selectedList.push(element);
             }
         })
         setTripPlaceList(selectedList);
+        setSearchSelected([]);
+    }
+    const handleRemoveButtonClick = () => {
+        let newList = [] as Object[];
+        tripPlaceList.forEach((element, index) => {
+            if (tripPlaceSelected.indexOf(index) === -1) {
+                newList.push(element);
+            }
+        })
+        setTripPlaceList(newList);
+        settripPlaceSelected([]);
     }
     return (
         <div>
@@ -49,6 +64,7 @@ export default function MainPage({ }: Props): ReactElement {
                 setSelected={settripPlaceSelected}
                 clickedIndex={tpClickedIndex}
                 setClickedIndex={setTpClickedIndex} />
+            <Button id="tp-remove-button" variant="contained" onClick={handleRemoveButtonClick}>삭제<span role="img" aria-label="arrow">🔻</span></Button>
             {/* <Counter></Counter> */}
         </div>
     )
