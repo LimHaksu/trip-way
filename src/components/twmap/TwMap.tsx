@@ -3,6 +3,7 @@ import { Map, TileLayer, Marker, Popup, GeoJSON, LayersControl, Point } from 're
 import './twmap.scss';
 import L from 'leaflet'
 import * as mapApi from 'lib/mapApi';
+import { GeoJsonObject } from 'geojson';
 
 const blueIcon = new L.Icon({
     iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
@@ -49,6 +50,7 @@ interface Props {
     placeList: any[];
     clickedIndex: number;
     setClickedIndex: React.Dispatch<React.SetStateAction<number>>;
+    lines: any;
 }
 interface State {
     viewport: Viewport;
@@ -58,10 +60,9 @@ interface State {
 
 
 
-export default function TwMap({ searchResult, placeList, clickedIndex, setClickedIndex }: Props): ReactElement {
+export default function TwMap({ searchResult, placeList, lines, clickedIndex, setClickedIndex }: Props): ReactElement {
     const [searchLocations, setSearchLocations] = useState<Object[]>([]);
     const [viewport, setViewport] = useState({ center: [37.497781, 126.994194] as L.LatLngTuple, zoom: 13 });
-    const [lines, setLines] = useState({} as any);
     const [wayPoints, setWayPoints] = useState([]);
     useEffect(() => {
         if (searchResult.length > 0) {
@@ -85,20 +86,7 @@ export default function TwMap({ searchResult, placeList, clickedIndex, setClicke
             // clean up
         }
     }, [clickedIndex]);
-    useEffect(() => {
-        // (Longitude , Latitude) 순서로 넣어줘야함
-        // const locations = [[126.961479, 37.477559], [126.987096, 37.493153], [127.015235, 37.488542], [127.032299, 37.506952]];
-        // const data = await mapApi.getTripRoute(locations);
-        // let wayPoints = data.waypoints.map((element: any) => {
-        //     // osrm 리턴 값은 (lng, lat) 튜플인데 leaflet에서 표기할땐 (lat, lng) 튜플이므로 순서를 바꿔줌
-        //     const temp = element.location[0];
-        //     element.location[0] = element.location[1];
-        //     element.location[1] = temp;
-        //     return element;
-        // })
-        // trips type : Array
-        // this.setState({ lines: data.trips[0].geometry, wayPoints: wayPoints });
-    }, []);
+
     const renderMarkers = (wayPoints: any[]) => {
         wayPoints.map((point: any, idx) =>
             <Marker key={`marker-${idx}`} position={point.location}>
