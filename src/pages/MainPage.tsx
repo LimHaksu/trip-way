@@ -66,6 +66,7 @@ export default function MainPage({ }: Props): ReactElement {
             return element;
         })
         // trips type : Array
+        console.log("다시계산");
         setLines(data.trips[0].geometry);
         // setWayPoints(wayPoints);
     }

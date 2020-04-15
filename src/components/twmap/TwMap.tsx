@@ -2,7 +2,6 @@ import React, { ReactElement, Fragment, useState, useEffect, createRef } from 'r
 import { Map, TileLayer, Marker, Popup, GeoJSON, LayersControl, Point } from 'react-leaflet';
 import './twmap.scss';
 import L from 'leaflet'
-import * as mapApi from 'lib/mapApi';
 import { GeoJsonObject } from 'geojson';
 
 const blueIcon = new L.Icon({
@@ -107,8 +106,17 @@ export default function TwMap({ searchResult, placeList, lines, clickedIndex, se
     const handleZoom = (e: any) => {
         setViewport({ center: [e.target._lastCenter.lat, e.target._lastCenter.lng], zoom: e._zoom });
     }
+    const getLinesHash = (lines: any) => {
+        let hash = 0;
+        console.log(lines);
+        lines.coordinates.forEach((element: any) => {
+            hash += element[0] + element[1];
+        })
+        return hash;
+    }
     return (
         <div>
+            {console.log(lines)}
             <Fragment>
                 <Map id='tw-map' viewport={viewport} onzoomend={handleZoom}>
                     <TileLayer
@@ -117,7 +125,7 @@ export default function TwMap({ searchResult, placeList, lines, clickedIndex, se
                         url='http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}' // lyrs= m : normal map, s : Satellite, h : hybrid, p : Terrain
                         subdomains={['mt0', 'mt1', 'mt2', 'mt3']}
                     />
-                    {typeof lines.coordinates != 'undefined' && <GeoJSON key='tw-geojson' data={lines} />}
+                    {typeof lines.coordinates != 'undefined' && <GeoJSON key={getLinesHash(lines)} data={lines} />}
                     {/* {this.renderMarkers(wayPoints)} */}
                     {wayPoints.map((point: any, idx) =>
                         <Marker key={`marker-${idx}`} position={point.location}>
