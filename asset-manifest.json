@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/trip-way/static/css/main.1cecc2ed.chunk.css",
-    "main.js": "/trip-way/static/js/main.7ff86180.chunk.js",
-    "main.js.map": "/trip-way/static/js/main.7ff86180.chunk.js.map",
+    "main.js": "/trip-way/static/js/main.7556e6ae.chunk.js",
+    "main.js.map": "/trip-way/static/js/main.7556e6ae.chunk.js.map",
     "runtime-main.js": "/trip-way/static/js/runtime-main.6e803641.js",
     "runtime-main.js.map": "/trip-way/static/js/runtime-main.6e803641.js.map",
     "static/js/2.e1d85c1e.chunk.js": "/trip-way/static/js/2.e1d85c1e.chunk.js",
     "static/js/2.e1d85c1e.chunk.js.map": "/trip-way/static/js/2.e1d85c1e.chunk.js.map",
     "index.html": "/trip-way/index.html",
-    "precache-manifest.50dae5ce825cced3dbb7919fa7db29fd.js": "/trip-way/precache-manifest.50dae5ce825cced3dbb7919fa7db29fd.js",
+    "precache-manifest.7df7ff6427165e54b5f88aee766c83c8.js": "/trip-way/precache-manifest.7df7ff6427165e54b5f88aee766c83c8.js",
     "service-worker.js": "/trip-way/service-worker.js",
     "static/css/main.1cecc2ed.chunk.css.map": "/trip-way/static/css/main.1cecc2ed.chunk.css.map",
     "static/js/2.e1d85c1e.chunk.js.LICENSE.txt": "/trip-way/static/js/2.e1d85c1e.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.6e803641.js",
     "static/js/2.e1d85c1e.chunk.js",
     "static/css/main.1cecc2ed.chunk.css",
-    "static/js/main.7ff86180.chunk.js"
+    "static/js/main.7556e6ae.chunk.js"
   ]
 }
