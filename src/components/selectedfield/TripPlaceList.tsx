@@ -172,6 +172,7 @@ export default function TripPlaceList({ id, clickedIndex, setClickedIndex, tripP
         setRows(selectedListNames);
     }
     useEffect(() => {
+        setPage(0);
         setList(tripPlaceList);
     }, [tripPlaceList]); // searchResult가 바뀔 때만 effect를 재실행합니다.
     return (

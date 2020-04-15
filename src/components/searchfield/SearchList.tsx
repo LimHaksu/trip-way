@@ -130,7 +130,6 @@ export default function SearchList({ id, searchResult, clickedIndex, setClickedI
     const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
         setPage(newPage);
     };
-
     const handleChangeRowsPerPage = (
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     ) => {
@@ -173,8 +172,8 @@ export default function SearchList({ id, searchResult, clickedIndex, setClickedI
         setRows(searchResultNames);
     }
     useEffect(() => {
+        setPage(0);
         setList(searchResult);
-        console.log(searchResult);
     }, [searchResult]); // searchResult가 바뀔 때만 effect를 재실행합니다.
 
     return (

@@ -48,6 +48,7 @@ export default function MainPage({ }: Props): ReactElement {
         <div>
             <TwMap
                 searchResult={searchResult}
+                placeList={tripPlaceList}
                 clickedIndex={clickedIndex}
                 setClickedIndex={setClickedIndex} />
             <SearchInput id="search-field" setSearchResult={setSearchResult} />
