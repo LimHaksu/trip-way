@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const getTripRoute = async (locations: number[][]) => {
-    let uri = 'https://router.project-osrm.org/trip/v1/driving/';
+    let uri = 'https://cors-anywhere.herokuapp.com/http://router.project-osrm.org/trip/v1/driving/';
     locations.forEach((latLng: number[]) => {
         uri += `${latLng[0]},${latLng[1]};`;
     })
