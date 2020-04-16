@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "2802ea7031f025bf3c1242004507406a",
+    "revision": "698397bdafda1253d552b8ee378bce04",
     "url": "/trip-way/index.html"
   },
   {
-    "revision": "5cac052ecf592f7455d6",
+    "revision": "d325c49ebe3137c7f2c5",
     "url": "/trip-way/static/css/main.1cecc2ed.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/trip-way/static/js/2.e1d85c1e.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "5cac052ecf592f7455d6",
-    "url": "/trip-way/static/js/main.7556e6ae.chunk.js"
+    "revision": "d325c49ebe3137c7f2c5",
+    "url": "/trip-way/static/js/main.ecd357e8.chunk.js"
   },
   {
     "revision": "2580a8536d58bf94a992",
