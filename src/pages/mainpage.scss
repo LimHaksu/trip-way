@@ -19,6 +19,14 @@
     background-color: white;
 }
 
+#search-clear-button{
+    position : absolute;
+    top : calc(5vh + 329px);
+    transform: translateY(55px);
+    right : 15px;
+    background-color: white;
+}
+
 #trip-place-list{
     position : absolute;
     top : calc(5vh + 370px);

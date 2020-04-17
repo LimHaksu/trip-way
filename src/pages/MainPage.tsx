@@ -37,6 +37,9 @@ export default function MainPage({ }: Props): ReactElement {
         setTripPlaceList(selectedList);
         setSearchSelected([]);
     }
+    const handleClearClick = () => {
+        setSearchResult([]);
+    }
     const handleRemoveButtonClick = () => {
         let newList = [] as Object[];
         tripPlaceList.forEach((element, index) => {
@@ -87,6 +90,7 @@ export default function MainPage({ }: Props): ReactElement {
                 selected={searchSelected}
                 setSelected={setSearchSelected} />
             <Button id="search-select-button" variant="contained" onClick={handleButtonClick}><span role="img" aria-label="▼">🔻</span>선택</Button>
+            <Button id="search-clear-button" variant="contained" onClick={handleClearClick}><span role="img" aria-label="x">❌</span>검색 초기화</Button>
             <TripPlaceList id='trip-place-list'
                 tripPlaceList={tripPlaceList}
                 selected={tripPlaceSelected}
